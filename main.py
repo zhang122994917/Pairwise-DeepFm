@@ -12,7 +12,7 @@ random.seed(123)
 
 
 df_list = []
-for line in file("u.user"):
+for line in file("./data/u.user"):
     line_list = line.strip().split('|')
     t_list = []
     for val in line_list:
@@ -20,11 +20,11 @@ for line in file("u.user"):
     df_list.append(t_list)    
 u_df = pd.DataFrame(df_list);
 u_df.columns = ['uid','age','sex','occupation','zipCode']  
-u_df.to_csv('user_feat.csv',index = None)
+u_df.to_csv('./data/user_feat.csv',index = None)
 
 
 i_list = []
-for line in file('u.item'):
+for line in file('./data/u.item'):
     line_list = line.strip().split('|')
     t_list = []
     for val in line_list:
@@ -35,7 +35,7 @@ columns = ['iid','iname','itime','null','iwebsite']
 for i in range(len(t_list)-len(columns)):
     columns.append('feat'+str(i));
 i_df.columns = columns
-i_df.to_csv('item_feat.csv',index = None)
+i_df.to_csv('./data/item_feat.csv',index = None)
 
 ignore_cols = ['zipCode','uid','iid','null','iwebsite','itime','iname']
 numeric_cols = ['age']
@@ -44,8 +44,8 @@ feat_dict = FeatureDictionary(u_df,i_df,ignore_cols,numeric_cols)
 dp = DataParser(feat_dict,u_df,i_df,ignore_cols,numeric_cols)
 
 def evaltest(sess):
-    liens = open('movielens-100k-test.txt').readlines()
-    userPosTest = pickle.load(open('userTestPos.pkl','rb'))
+    liens = open('./data/movielens-100k-test.txt').readlines()
+    userPosTest = pickle.load(open('./data/userTestPos.pkl','rb'))
     res = []
     for u in userPosTest.keys():
         if len(userPosTest[u]) <  10:
@@ -73,7 +73,7 @@ with tf.Session(config=tf.ConfigProto(gpu_options=gpu_options)) as sess:
     sess.run(tf.local_variables_initializer())
     
     sys.stdout.flush()
-    lines = open('movielens-100k-train.txt','rb').readlines()
+    lines = open('./data/movielens-100k-train.txt','rb').readlines()
     batch_size = 32
     for d in range(50):
         random.shuffle(lines)

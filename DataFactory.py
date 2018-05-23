@@ -4,8 +4,8 @@ import pickle
 random.seed(123)
 
 
-userPos = pickle.load(open('userPos.pkl','rb'))
-userTestPos = pickle.load(open('userTestPos.pkl','rb'))
+userPos = pickle.load(open('./data/userPos.pkl','rb'))
+userTestPos = pickle.load(open('./data/userTestPos.pkl','rb'))
 class FeatureDictionary(object):
     
     def __init__(self,u_df,i_df,ignore_cols,numeric_cols):
